@@ -1,8 +1,3 @@
--- ==============================================================================
--- SKRIP BASIS DATA SIBATA
--- Studi Kasus: Analisis Lahan Sawah Jawa Barat untuk Fasilitas Data Center AI
--- Sistem Basis Data - Semester 3
--- ==============================================================================
 
 -- Buat database jika belum ada (opsional)
 -- CREATE DATABASE IF NOT EXISTS sibata_db;
