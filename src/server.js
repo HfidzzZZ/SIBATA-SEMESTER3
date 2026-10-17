@@ -3,8 +3,13 @@
 import dotenv from "dotenv";
 import express from "express";
 import path from "node:path";
-import data from "../common_data.js";
+import * as data from "../common_data.js";
 import * as midle from "./middleware/middleware.js"
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 dotenv.config();
 // Konfigurasi
@@ -20,10 +25,24 @@ app.use(express.static(
     path.resolve(__dirname, "../public")
 ));
 
-// Route halaman utama
-app.get("/", (req, res) => {
+// Route halaman utama (Dashboard)
+app.get(["/", "/dashboard"], (req, res) => {
     res.sendFile(
         path.resolve(__dirname, "../public/index.html")
+    );
+});
+
+// Route panel admin
+app.get("/admin", (req, res) => {
+    res.sendFile(
+        path.resolve(__dirname, "../public/admin.html")
+    );
+});
+
+// Route halaman login
+app.get("/login", (req, res) => {
+    res.sendFile(
+        path.resolve(__dirname, "../public/login.html")
     );
 });
 

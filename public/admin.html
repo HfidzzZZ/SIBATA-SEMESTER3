@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIBATA - Panel Admin (Input Data Petak Sawah)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-title">SIBATA</a>
+        <span class="brand-subtitle">Sistem Analisis Lahan Sawah Jawa Barat untuk Data Center AI</span>
+      </div>
+      <nav class="main-nav" aria-label="Navigasi Utama">
+        <div class="nav-scroller">
+          <a href="index.html" class="nav-link">Dashboard Analisis</a>
+          <a href="admin.html" class="nav-link active" id="nav-admin-link">Panel Admin (Input Data)</a>
+        </div>
+        <div class="nav-auth-slot" id="nav-auth-slot">
+          <!-- Diisi otomatis oleh auth.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+
+    <!-- PANEL ADMIN (INPUT DATA / SIMULASI INSERT) -->
+    <div id="tab-admin" class="tab-pane active">
+
+      <!-- Banner Ringkas Panel Admin -->
+      <section class="context-banner" aria-label="Konteks Panel Admin">
+        <div class="context-text">
+          <h1>Pusat Manajemen & Entri Data Lahan Sawah</h1>
+          <p>
+            Modul administrasi untuk pendaftaran petak sawah baru dan pengelolaan entitas pemilik/kelompok tani. Data yang disimpan akan langsung dianalisis kelayakan infrastruktur data center dan disinkronisasikan ke <a href="index.html" style="color: var(--color-primary-green); font-weight: 600; text-decoration: underline;">Dashboard Analisis</a>.
+          </p>
+        </div>
+      </section>
+
+      <div class="admin-grid">
+        <!-- Form Utama: Tambah Petak Sawah Baru -->
+        <section class="admin-card">
+          <div class="admin-card-header">
+            <h2>Pendaftaran Petak Sawah Baru</h2>
+            <p>Operasi <code>INSERT INTO data_sawah</code>. Field ID digenerate otomatis berurutan sebagai Primary Key unik.</p>
+          </div>
+
+          <form id="form-add-sawah" class="admin-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-persil">Nomor Persil Resmi <span class="required">*</span></label>
+                <input type="text" id="input-persil" placeholder="Contoh: PRS-6011" required>
+                <span class="form-help">Nomor identifikasi petak resmi dari kantor desa / BPN.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="input-luas">Luas Lahan (Hektar) <span class="required">*</span></label>
+                <input type="number" id="input-luas" step="0.1" min="0.1" placeholder="Contoh: 10.5" required>
+                <span class="form-help">Skala fasilitas data center AI umumnya membutuhkan lahan &ge; 5 Hektar.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <div class="label-with-action">
+                  <label for="select-pemilik">Pemilik Lahan (Foreign Key) <span class="required">*</span></label>
+                  <button type="button" id="btn-open-pemilik-modal" class="btn-link">+ Tambah Pemilik Baru</button>
+                </div>
+                <select id="select-pemilik" required>
+                  <option value="">-- Pilih Pemilik Terdaftar --</option>
+                </select>
+                <span class="form-help">Merujuk ke tabel relasi <code>pemilik.id</code>.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="select-wilayah">Wilayah Administratif (Foreign Key) <span class="required">*</span></label>
+                <select id="select-wilayah" required>
+                  <option value="">-- Pilih Desa / Kecamatan --</option>
+                </select>
+                <span class="form-help">Merujuk ke tabel referensi master <code>wilayah.id</code>.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="select-jenis-sawah">Jenis Pengairan Sawah <span class="required">*</span></label>
+                <select id="select-jenis-sawah" required>
+                  <option value="Tadah Hujan">Tadah Hujan</option>
+                  <option value="Setengah Teknis">Setengah Teknis</option>
+                  <option value="Irigasi Teknis">Irigasi Teknis</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="select-status-hukum">Status Hukum Lahan (Foreign Key) <span class="required">*</span></label>
+                <select id="select-status-hukum" required>
+                  <!-- Diisi dinamis dari statusLahan -->
+                </select>
+                <span class="form-help">Menentukan izin alih fungsi non-pertanian.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="input-lat">Titik Garis Lintang (Latitude) <span class="required">*</span></label>
+                <input type="number" id="input-lat" step="0.0001" placeholder="Contoh: -6.3458" required>
+              </div>
+
+              <div class="form-group">
+                <label for="input-lng">Titik Garis Bujur (Longitude) <span class="required">*</span></label>
+                <input type="number" id="input-lng" step="0.0001" placeholder="Contoh: 107.3124" required>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Simpan Petak Sawah ke Basis Data</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Informasi Konsep Relasi Basis Data -->
+        <aside class="admin-sidebar">
+          <div class="info-card">
+            <h3>Aturan Integritas Relasional (RDBMS)</h3>
+            <p>Formulir pendaftaran petak sawah menerapkan prinsip normalisasi dan batasan kunci asing (Foreign Key):</p>
+            <ul class="concept-list">
+              <li>
+                <strong>pemilik_id:</strong> Menghubungkan kepemilikan petak ke tabel <code>pemilik</code>. Mencegah redundansi data identitas petani.
+              </li>
+              <li>
+                <strong>wilayah_id:</strong> Menghubungkan petak ke desa terkait di tabel <code>wilayah</code>, memastikan data risiko banjir dan gempa bumi tersinkronisasi.
+              </li>
+              <li>
+                <strong>status_lahan_id:</strong> Memastikan kepatuhan terhadap zonasi RTRW dan perlindungan LP2B (UU No. 41 Tahun 2009).
+              </li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h3>Pintasan Entitas Master</h3>
+            <p>Gunakan tombol ini jika petani atau kelompok tani pengelola belum ada di dalam daftar:</p>
+            <button type="button" id="btn-open-pemilik-modal-side" class="btn-secondary full-width">+ Tambah Pemilik / Kelompok Tani Baru</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal Tambah Pemilik Baru (INSERT INTO pemilik) -->
+  <div id="pemilik-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pemilik-modal-title">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-card-header">
+        <div>
+          <h2 id="pemilik-modal-title">Tambah Pemilik Baru</h2>
+          <span class="modal-card-sub">Operasi <code>INSERT INTO pemilik</code></span>
+        </div>
+        <button type="button" id="pemilik-modal-close-btn" class="modal-close" aria-label="Tutup modal">&times;</button>
+      </div>
+      <form id="form-add-pemilik" class="modal-card-body">
+        <div class="form-group">
+          <label for="input-pemilik-nama">Nama Petani / Kelompok Tani <span class="required">*</span></label>
+          <input type="text" id="input-pemilik-nama" placeholder="Contoh: Kelompok Tani Harapan Jaya" required>
+        </div>
+
+        <div class="form-group">
+          <label for="select-pemilik-jenis">Jenis Kepemilikan <span class="required">*</span></label>
+          <select id="select-pemilik-jenis" required>
+            <option value="Perorangan">Perorangan</option>
+            <option value="Kelompok Tani">Kelompok Tani</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="input-pemilik-kontak">Nomor Kontak / Telepon <span class="required">*</span></label>
+          <input type="text" id="input-pemilik-kontak" placeholder="Contoh: 081298765432" required>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary full-width">Simpan Pemilik ke Database</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand-info">
+        <strong>SIBATA Jawa Barat</strong>
+        <p>Sistem Informasi Tata Lahan Pertanian untuk Studi Kasus Penilaian Fasilitas Data Center AI.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Buka Dashboard Analisis</a>
+        <a href="#" class="footer-link">Dasar Hukum LP2B (UU 41/2009)</a>
+        <a href="#" class="footer-link">Dokumentasi Skema Relasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/admin.js"></script>
+</body>
+</html>

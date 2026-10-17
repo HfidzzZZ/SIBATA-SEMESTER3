@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIBATA - Masuk Panel Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-title">SIBATA</a>
+        <span class="brand-subtitle">Sistem Analisis Lahan Sawah Jawa Barat untuk Data Center AI</span>
+      </div>
+      <nav class="main-nav" aria-label="Navigasi Utama">
+        <div class="nav-scroller">
+          <a href="index.html" class="nav-link">Dashboard Analisis</a>
+        </div>
+        <div class="nav-auth-slot" id="nav-auth-slot">
+          <a href="login.html" class="btn-nav-login">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            <span>Masuk Admin</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main login-page-main">
+    <div class="login-wrapper">
+      <div class="login-card">
+        <div class="login-card-header">
+          <div class="login-icon-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <h1>Masuk Panel Admin</h1>
+          <p>Otorisasi petugas administrator untuk akses penambahan dan modifikasi data petak sawah Jawa Barat.</p>
+        </div>
+
+        <div id="login-alert" class="login-alert" style="display: none;"></div>
+
+        <form id="form-login" class="login-form">
+          <div class="form-group">
+            <label for="login-username">Nama Pengguna / Username <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="login-username" 
+              placeholder="Masukkan username (contoh: admin)" 
+              required
+              autocomplete="username"
+            >
+          </div>
+
+          <div class="form-group">
+            <div class="label-with-action">
+              <label for="login-password">Kata Sandi / Password <span class="required">*</span></label>
+              <button type="button" id="btn-toggle-password" class="btn-link">Lihat</button>
+            </div>
+            <input 
+              type="password" 
+              id="login-password" 
+              placeholder="Masukkan password" 
+              required
+              autocomplete="current-password"
+            >
+          </div>
+
+          <button type="submit" class="btn-primary full-width btn-login-submit">
+            Masuk ke Panel Admin
+          </button>
+        </form>
+
+        <div class="login-demo-notice">
+          <strong>Kredensial Pengujian (Demo):</strong>
+          <p>Username: <code>admin</code> &bull; Password: <code>admin</code></p>
+        </div>
+
+        <div class="login-card-footer">
+          <a href="index.html" class="login-back-link">&larr; Kembali ke Dashboard Analisis Publik</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand-info">
+        <strong>SIBATA Jawa Barat</strong>
+        <p>Sistem Informasi Tata Lahan Pertanian untuk Studi Kasus Penilaian Fasilitas Data Center AI.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Dashboard Analisis</a>
+        <a href="#" class="footer-link">Dasar Hukum LP2B (UU 41/2009)</a>
+        <a href="#" class="footer-link">Dokumentasi Skema Relasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/login.js"></script>
+</body>
+</html>

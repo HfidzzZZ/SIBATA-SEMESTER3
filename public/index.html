@@ -1,11 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>SIBATA - Dashboard Analisis Sawah Jawa Barat untuk Data Center AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  hsjsnsnz
+
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-wrapper">
+        <a href="index.html" class="brand-title">SIBATA</a>
+        <span class="brand-subtitle">Sistem Analisis Lahan Sawah Jawa Barat untuk Data Center AI</span>
+      </div>
+      <nav class="main-nav" aria-label="Navigasi Utama">
+        <div class="nav-scroller">
+          <a href="index.html" class="nav-link active">Dashboard Analisis</a>
+          <a href="admin.html" class="nav-link" id="nav-admin-link" style="display: none;">Panel Admin (Input Data)</a>
+        </div>
+        <div class="nav-auth-slot" id="nav-auth-slot">
+          <!-- Diisi otomatis oleh auth.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+
+    <!-- DASHBOARD ANALISIS -->
+    <div id="tab-dashboard" class="tab-pane active">
+      
+      <!-- Banner Konteks Penelitian / Studi Kasus -->
+      <section class="context-banner" aria-label="Konteks Sistem">
+        <div class="context-text">
+          <h1>Penyaringan Lahan Pertanian untuk Kawasan Komputasi AI</h1>
+          <p>
+            Sistem Pendukung Keputusan berbasis data relasional untuk mengidentifikasi petak sawah di koridor industri Jawa Barat yang memenuhi kepatuhan tata ruang hukum (bebas status LP2B) dan memenuhi kriteria teknis fasilitas kritis: pasokan daya listrik, kabel serat optik, dan mitigasi risiko bencana alam.
+          </p>
+        </div>
+      </section>
+
+      <!-- Ringkasan Metrik Analisis -->
+      <section class="metrics-grid" aria-label="Ringkasan Statistik Lahan">
+        <div class="metric-card">
+          <span class="metric-label">Total Luas Lahan Terdata</span>
+          <strong class="metric-value" id="metric-total-luas">0 Ha</strong>
+          <span class="metric-sub" id="metric-total-petak">0 Petak Sawah</span>
+        </div>
+
+        <div class="metric-card metric-card-danger">
+          <span class="metric-label">Dilindungi Hukum (LP2B)</span>
+          <strong class="metric-value" id="metric-lp2b">0 Petak</strong>
+          <span class="metric-sub">Dilarang dialihfungsikan (UU 41/2009)</span>
+        </div>
+
+        <div class="metric-card metric-card-success">
+          <span class="metric-label">Layak Data Center AI</span>
+          <strong class="metric-value" id="metric-layak-dc">0 Petak</strong>
+          <span class="metric-sub">Lolos izin & dekat infrastruktur</span>
+        </div>
+
+        <div class="metric-card metric-card-warning">
+          <span class="metric-label">Perlu Dipertimbangkan</span>
+          <strong class="metric-value" id="metric-dipertimbangkan">0 Petak</strong>
+          <span class="metric-sub">Memerlukan mitigasi bencana/akses</span>
+        </div>
+      </section>
+
+      <!-- Toolbar Penyaringan & Pencarian -->
+      <section class="filter-panel" aria-label="Penyaringan Data">
+        <div class="filter-group-search">
+          <label for="search-input">Pencarian Petak</label>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Cari nomor persil, nama pemilik, atau nama desa..."
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-wilayah">Wilayah Administratif</label>
+          <select id="filter-wilayah">
+            <option value="">Semua Wilayah</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-hukum">Status Hukum Alih Fungsi</label>
+          <select id="filter-hukum">
+            <option value="">Semua Status</option>
+            <option value="boleh">Boleh Dialihfungsikan</option>
+            <option value="dilarang">Dilarang Alih Fungsi</option>
+            <option value="lp2b">Khusus LP2B</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-dc">Kelayakan Data Center</label>
+          <select id="filter-dc">
+            <option value="">Semua Penilaian</option>
+            <option value="Layak">Layak</option>
+            <option value="Dipertimbangkan">Dipertimbangkan</option>
+            <option value="Tidak Layak">Tidak Layak</option>
+          </select>
+        </div>
+
+        <div class="filter-actions">
+          <button type="button" id="btn-reset-filter" class="btn-secondary">Reset Filter</button>
+        </div>
+      </section>
+
+      <!-- Tabel Data Sawah & Grid Kartu Responsif -->
+      <section class="table-container" aria-label="Tabel Data Sawah">
+        <div class="table-header-info">
+          <div>
+            <h2>Data Petak Sawah & Hasil Evaluasi Teknis</h2>
+            <p class="table-header-sub">Hasil query gabungan (JOIN) data fisik, hukum perlindungan lahan, dan kalkulasi jarak fasilitas penunjang.</p>
+          </div>
+          <div class="table-header-actions">
+            <span id="table-count" class="table-count-text">Menampilkan data...</span>
+            <div class="view-toggle" role="group" aria-label="Pilihan Format Tampilan">
+              <button type="button" id="btn-view-table" class="view-btn active">Tabel</button>
+              <button type="button" id="btn-view-grid" class="view-btn">Grid Kartu</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tampilan Tabel (Ideal di Layar Lebar) -->
+        <div id="wrapper-table-view" class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID / Persil</th>
+                <th>Pemilik / Pengelola</th>
+                <th>Lokasi Wilayah</th>
+                <th>Luas & Jenis</th>
+                <th>Status Hukum</th>
+                <th>Penilaian Data Center</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Diisi secara dinamis oleh dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tampilan Grid Kartu (Sangat Responsif di HP & Laptop) -->
+        <div id="wrapper-grid-view" class="cards-grid-container" style="display: none;">
+          <!-- Diisi secara dinamis oleh dashboard.js -->
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Modal Detail Analisis -->
+  <div id="detail-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-card-header">
+        <div>
+          <h2 id="modal-title">Laporan Analisis Kelayakan Data Center</h2>
+          <span class="modal-card-sub">Evaluasi keterpenuhan infrastruktur teknis dan status hukum lahan</span>
+        </div>
+        <button type="button" id="modal-close-btn" class="modal-close" aria-label="Tutup modal">&times;</button>
+      </div>
+      <div id="modal-content-body" class="modal-card-body">
+        <!-- Diisi oleh dashboard.js saat tombol detail diklik -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand-info">
+        <strong>SIBATA Jawa Barat</strong>
+        <p>Sistem Informasi Tata Lahan Pertanian untuk Studi Kasus Penilaian Fasilitas Data Center AI.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Panduan Kriteria Kelayakan</a>
+        <a href="#" class="footer-link">Dasar Hukum LP2B (UU 41/2009)</a>
+        <a href="#" class="footer-link">Dokumentasi Skema Relasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/dashboard.js"></script>
 </body>
 </html>
