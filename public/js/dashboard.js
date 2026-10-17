@@ -3,6 +3,7 @@ import {
   wilayah,
   getJoinedData
 } from "./store.js";
+import { initNavbarAuth } from "./auth.js";
 
 // Render Metrik Ringkasan
 function renderMetrics(data) {
@@ -386,6 +387,8 @@ function initViewToggle() {
 
 // Inisialisasi Halaman Dashboard
 document.addEventListener("DOMContentLoaded", () => {
+  initNavbarAuth();
+
   const initialJoined = getJoinedData();
 
   renderMetrics(initialJoined);
