@@ -1,3 +1,4 @@
+-- ==============================================================================
 
 -- Buat database jika belum ada (opsional)
 -- CREATE DATABASE IF NOT EXISTS sibata_db;
