@@ -9,6 +9,10 @@ import {
   getLocalKandidat,
   saveLocalKandidat
 } from "./store.js";
+import { protectAdminPage, initNavbarAuth } from "./auth.js";
+
+// Lindungi akses halaman admin sejak awal skrip dieksekusi
+protectAdminPage();
 
 // Render Dropdown untuk Form Admin
 function populateAdminFormDropdowns() {
@@ -217,6 +221,8 @@ function initPemilikModal() {
 
 // Inisialisasi Halaman Admin
 document.addEventListener("DOMContentLoaded", () => {
+  protectAdminPage();
+  initNavbarAuth();
   populateAdminFormDropdowns();
   initSawahForm();
   initPemilikModal();

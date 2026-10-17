@@ -37,6 +37,13 @@ app.get("/admin", (req, res) => {
     );
 });
 
+// Route halaman login
+app.get("/login", (req, res) => {
+    res.sendFile(
+        path.resolve(__dirname, "../public/login.html")
+    );
+});
+
 // Route API
 app.get("/api/health", (req, res) => {
     res.json({
