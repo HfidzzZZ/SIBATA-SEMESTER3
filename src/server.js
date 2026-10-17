@@ -23,10 +23,17 @@ app.use(express.static(
     path.resolve(__dirname, "../public")
 ));
 
-// Route halaman utama
-app.get("/", (req, res) => {
+// Route halaman utama (Dashboard)
+app.get(["/", "/dashboard"], (req, res) => {
     res.sendFile(
         path.resolve(__dirname, "../public/index.html")
+    );
+});
+
+// Route panel admin
+app.get("/admin", (req, res) => {
+    res.sendFile(
+        path.resolve(__dirname, "../public/admin.html")
     );
 });
 
