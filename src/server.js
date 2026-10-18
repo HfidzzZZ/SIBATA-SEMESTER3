@@ -3,8 +3,10 @@
 import dotenv from "dotenv";
 import express from "express";
 import path from "node:path";
-import * as data from "../common_data.js";
+import * as data from "./common_data.js";
 import * as midle from "./middleware/middleware.js"
+import * as route from "./route/route.js"
+import cors from "cors";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +17,7 @@ dotenv.config();
 // Konfigurasi
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = Number(process.env.PORT || 3000);
-
+app.use(cors())
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,6 +52,12 @@ app.get("/login", (req, res) => {
 app.post("/api/login",midle.login);
 app.post("/api/logout",midle.logout);
 app.post("/api/extendSesion",midle.extendSesionEndpoint);
+//test url
+app.get("/api/test",route.get);
+app.post("/api/test",route.post);
+app.put("/api/test",route.put);
+app.delete("/api/test",route.del);
+
 app.get("/api/health", (req, res) => {
     res.json({
         status: "ok",

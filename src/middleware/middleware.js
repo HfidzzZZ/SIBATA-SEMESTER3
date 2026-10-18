@@ -48,7 +48,7 @@ export async function extendSesionEndpoint(req,res){
  * @param {express.NextFunction} next
  */
 export async function extendSesion(req,res,next){
-  const status=sesi.extendSession(req.params.sesion);
+  const status=sesi.extendSession(req.get("X-Sesion-ID"));
   if(status){
     next();
   }else{
