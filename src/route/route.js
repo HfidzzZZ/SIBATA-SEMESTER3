@@ -1,5 +1,5 @@
 import express from "express";
-import * as api from "../api/api";
+import * as api from "../api/api.js";
 
 //import db later
 function isArrayOfObject(data) {

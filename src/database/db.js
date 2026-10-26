@@ -1,5 +1,5 @@
 import mysql from "mysql2/promise";
-import * as initial from "./init"
+import * as initial from "./init.js";
 const db = mysql.createPool({
     host: process.env.DB_HOST ?? "localhost",
     user: process.env.DB_USER,

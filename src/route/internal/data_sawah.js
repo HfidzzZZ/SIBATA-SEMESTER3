@@ -1,6 +1,6 @@
 import express from "express";
-import * as api from "../../api/api";
-import * as commondata from "../../common_data";
+import * as api from "../../api/api.js";
+import * as commondata from "../../common_data.js";
 /**
 * @param {express.Request} req 
 * @param {express.Response} res

@@ -3,53 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIBATA - Panel Admin (Input Data Petak Sawah)</title>
+  <title>SIBATA - Panel Admin (Manajemen Lahan Sawah)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
+  <!-- Header & Navigasi -->
   <header class="site-header">
-    <div class="header-container">
-      <div class="brand-wrapper">
-        <a href="index.html" class="brand-title">SIBATA</a>
-        <span class="brand-subtitle">Sistem Analisis Lahan Sawah Jawa Barat untuk Data Center AI</span>
-      </div>
-      <nav class="main-nav" aria-label="Navigasi Utama">
-        <div class="nav-scroller">
-          <a href="index.html" class="nav-link">Dashboard Analisis</a>
-          <a href="admin.html" class="nav-link active" id="nav-admin-link">Panel Admin (Input Data)</a>
-        </div>
-        <div class="nav-auth-slot" id="nav-auth-slot">
+    <a href="index.html" class="logo" aria-label="Beranda SIBATA">
+      <svg class="logo-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 20A7 7 0 0 1 4 13a7 7 0 0 1 7-7c1.5 0 2.9.5 4 1.3L12 10l6 1-1.3 4C17.5 17.1 18 18.5 18 20"></path>
+        <path d="M12 10l9-7"></path>
+      </svg>
+      <span>SIBATA</span>
+    </a>
+
+    <!-- Hamburger Button untuk Ponsel -->
+    <button type="button" class="mobile-nav-toggle" id="btn-mobile-menu" aria-label="Buka navigasi menu" aria-expanded="false" aria-controls="main-nav-menu">
+      <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: none;">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <nav class="site-nav" id="main-nav-menu" aria-label="Navigasi Utama">
+      <ul class="nav-links-wrapper">
+        <li><a href="index.html" class="nav-item-link">Beranda</a></li>
+        <li><a href="index.html#tentang-kami" class="nav-item-link">Tentang Kami</a></li>
+        <li id="nav-auth-slot">
           <!-- Diisi otomatis oleh auth.js -->
-        </div>
-      </nav>
-    </div>
+          <a href="admin.html" class="btn-primary btn-nav-login">Panel Admin</a>
+        </li>
+      </ul>
+    </nav>
   </header>
 
-  <main class="site-main">
-
-    <!-- PANEL ADMIN (INPUT DATA / SIMULASI INSERT) -->
-    <div id="tab-admin" class="tab-pane active">
-
-      <!-- Banner Ringkas Panel Admin -->
-      <section class="context-banner" aria-label="Konteks Panel Admin">
-        <div class="context-text">
-          <h1>Pusat Manajemen & Entri Data Lahan Sawah</h1>
-          <p>
-            Modul administrasi untuk pendaftaran petak sawah baru dan pengelolaan entitas pemilik/kelompok tani. Data yang disimpan akan langsung dianalisis kelayakan infrastruktur data center dan disinkronisasikan ke <a href="index.html" style="color: var(--color-primary-green); font-weight: 600; text-decoration: underline;">Dashboard Analisis</a>.
-          </p>
-        </div>
-      </section>
+  <main class="site-main" style="padding: 40px 80px 80px 80px;">
+    <div style="max-width: 1280px; margin: 0 auto;">
+      <div class="section-head">
+        <span class="section-tag">Administrasi Basis Data</span>
+        <h1 class="section-title">Pusat Pendaftaran & Entri Data Petak Sawah</h1>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin-top: 6px;">Pendaftaran petak sawah baru ke dalam relasi data_sawah. Data yang ditambahkan akan otomatis dianalisis kelayakannya untuk data center AI.</p>
+      </div>
 
       <div class="admin-grid">
         <!-- Form Utama: Tambah Petak Sawah Baru -->
         <section class="admin-card">
           <div class="admin-card-header">
             <h2>Pendaftaran Petak Sawah Baru</h2>
-            <p>Operasi <code>INSERT INTO data_sawah</code>. Field ID digenerate otomatis berurutan sebagai Primary Key unik.</p>
+            <p>Operasi <code>INSERT INTO data_sawah</code> dengan aturan relasional.</p>
           </div>
 
           <form id="form-add-sawah" class="admin-form">
@@ -71,7 +81,7 @@
               <div class="form-group">
                 <div class="label-with-action">
                   <label for="select-pemilik">Pemilik Lahan (Foreign Key) <span class="required">*</span></label>
-                  <button type="button" id="btn-open-pemilik-modal" class="btn-link">+ Tambah Pemilik Baru</button>
+                  <button type="button" id="btn-open-pemilik-modal" class="btn-link">+ Tambah Baru</button>
                 </div>
                 <select id="select-pemilik" required>
                   <option value="">-- Pilih Pemilik Terdaftar --</option>
@@ -119,44 +129,47 @@
               </div>
             </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn-primary">Simpan Petak Sawah ke Basis Data</button>
+            <div style="margin-top: 10px;">
+              <button type="submit" class="btn-primary full-width">Simpan Petak Sawah ke Basis Data</button>
             </div>
           </form>
         </section>
 
         <!-- Informasi Konsep Relasi Basis Data -->
-        <aside class="admin-sidebar">
-          <div class="info-card">
-            <h3>Aturan Integritas Relasional (RDBMS)</h3>
-            <p>Formulir pendaftaran petak sawah menerapkan prinsip normalisasi dan batasan kunci asing (Foreign Key):</p>
-            <ul class="concept-list">
-              <li>
-                <strong>pemilik_id:</strong> Menghubungkan kepemilikan petak ke tabel <code>pemilik</code>. Mencegah redundansi data identitas petani.
+        <aside style="display: flex; flex-direction: column; gap: 20px;">
+          <div class="admin-card">
+            <div class="admin-card-header" style="margin-bottom: 14px; padding-bottom: 10px;">
+              <h2>Integritas Relasional RDBMS</h2>
+            </div>
+            <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 14px;">Formulir ini menerapkan batasan kunci asing (Foreign Key):</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 0.8125rem; color: var(--text-muted);">
+              <li style="border-left: 3px solid var(--primary-green); padding-left: 10px;">
+                <strong style="color: var(--text-dark);">pemilik_id:</strong> Menghubungkan kepemilikan ke tabel <code>pemilik</code>.
               </li>
-              <li>
-                <strong>wilayah_id:</strong> Menghubungkan petak ke desa terkait di tabel <code>wilayah</code>, memastikan data risiko banjir dan gempa bumi tersinkronisasi.
+              <li style="border-left: 3px solid var(--secondary-green); padding-left: 10px;">
+                <strong style="color: var(--text-dark);">wilayah_id:</strong> Menghubungkan ke tabel master <code>wilayah</code> (sinkronisasi risiko banjir & gempa).
               </li>
-              <li>
-                <strong>status_lahan_id:</strong> Memastikan kepatuhan terhadap zonasi RTRW dan perlindungan LP2B (UU No. 41 Tahun 2009).
+              <li style="border-left: 3px solid var(--accent-gold); padding-left: 10px;">
+                <strong style="color: var(--text-dark);">status_lahan_id:</strong> Memastikan kepatuhan terhadap perlindungan LP2B (UU No. 41 Tahun 2009).
               </li>
             </ul>
           </div>
 
-          <div class="info-card">
-            <h3>Pintasan Entitas Master</h3>
-            <p>Gunakan tombol ini jika petani atau kelompok tani pengelola belum ada di dalam daftar:</p>
-            <button type="button" id="btn-open-pemilik-modal-side" class="btn-secondary full-width">+ Tambah Pemilik / Kelompok Tani Baru</button>
+          <div class="admin-card">
+            <div class="admin-card-header" style="margin-bottom: 14px; padding-bottom: 10px;">
+              <h2>Pintasan Entitas Pemilik</h2>
+            </div>
+            <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">Jika petani pengelola belum terdaftar di sistem:</p>
+            <button type="button" id="btn-open-pemilik-modal-side" class="btn-secondary full-width">+ Tambah Pemilik / Kelompok Tani</button>
           </div>
         </aside>
       </div>
     </div>
-
   </main>
 
   <!-- Modal Tambah Pemilik Baru (INSERT INTO pemilik) -->
   <div id="pemilik-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pemilik-modal-title">
-    <div class="modal-card modal-card-sm">
+    <div class="modal-card" style="max-width: 480px;">
       <div class="modal-card-header">
         <div>
           <h2 id="pemilik-modal-title">Tambah Pemilik Baru</h2>
@@ -183,7 +196,7 @@
           <input type="text" id="input-pemilik-kontak" placeholder="Contoh: 081298765432" required>
         </div>
 
-        <div class="form-actions">
+        <div style="margin-top: 10px;">
           <button type="submit" class="btn-primary full-width">Simpan Pemilik ke Database</button>
         </div>
       </form>
@@ -191,16 +204,19 @@
   </div>
 
   <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-brand-info">
-        <strong>SIBATA Jawa Barat</strong>
-        <p>Sistem Informasi Tata Lahan Pertanian untuk Studi Kasus Penilaian Fasilitas Data Center AI.</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>SIBATA JAWA BARAT</h4>
+        <p>Sistem Informasi Tata Lahan Pertanian untuk Kajian Penentuan Lokasi Data Center AI.</p>
       </div>
-      <div class="footer-links">
-        <a href="index.html" class="footer-link">Buka Dashboard Analisis</a>
-        <a href="#" class="footer-link">Dasar Hukum LP2B (UU 41/2009)</a>
-        <a href="#" class="footer-link">Dokumentasi Skema Relasi</a>
-      </div>
+      <nav class="footer-nav" aria-label="Navigasi Footer">
+        <a href="index.html">Beranda</a>
+        <a href="index.html#tentang-kami">Tentang Kami</a>
+        <a href="login.html">Login Admin</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>Hak Cipta 2026 SIBATA. Proyek Akademik Semester 3 Teknik Informatika.</span>
     </div>
   </footer>
 
