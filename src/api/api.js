@@ -8,6 +8,7 @@ import * as commondata from "../common_data"
 //param bebas di ubah sesuai kebutuhan
 export async function init(){
   commondata.dbstatus=await db.init();
+  console.log(JSON.stringify(commondata.dbstatus));
   //initial table if it isnt been made
 }
 export function joinAll(){
