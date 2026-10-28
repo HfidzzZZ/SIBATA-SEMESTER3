@@ -2,7 +2,7 @@
 import * as express from "express";
 import * as api from "../../api/api.js";
 import * as commondata from "../../common_data.js";
-
+import * as middleware from "../../middleware/middleware.js"
 const router = express.Router();
 
 /**
@@ -281,8 +281,8 @@ async function del(req, res) {
 }
 
 router.get("/", get);
-router.post("/", post);
-router.put("/", put);
-router.delete("/", del);
+router.post("/",middleware.extendSesion, post);
+router.put("/",middleware.extendSesion, put);
+router.delete("/",middleware.extendSesion, del);
 
 export { router };
