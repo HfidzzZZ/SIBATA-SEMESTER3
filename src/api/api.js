@@ -1,15 +1,17 @@
-import * as db from "../database/db";
-export * as wilayah from "./internal/wilayah_api";
-export * as dataSawah from "./internal/data_sawah_api";
-export * as infrastruktur from "./internal/infrastruktur_api";
-export * as kandidatLokasi from "./internal/kandidat_lokasi_api";
-export * as statudLahan from "./internal/status_lahan_api";
-import * as commondata from "../common_data"
+import * as db from "../database/db.js";
+export * as wilayah from "./internal/wilayah_api.js";
+export * as dataSawah from "./internal/data_sawah_api.js";
+export * as infrastruktur from "./internal/infrastruktur_api.js";
+export * as kandidatLokasi from "./internal/kandidat_lokasi_api.js";
+export * as statudLahan from "./internal/status_lahan_api.js";
+import * as commondata from "../common_data.js";
 //param bebas di ubah sesuai kebutuhan
 export async function init(){
-  commondata.dbstatus=await db.init();
-  console.log(JSON.stringify(commondata.dbstatus));
-  //initial table if it isnt been made
+  try {
+    commondata.setDbStatus(await db.init());
+  } catch (err) {
+    console.error("Database init error:", err.message);
+  }
 }
 export function joinAll(){
   //return alldata joined

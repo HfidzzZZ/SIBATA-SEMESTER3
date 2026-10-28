@@ -43,14 +43,14 @@ export function logout() {
   window.location.href = "index.html";
 }
 
-// Inisialisasi tampilan Navbar berdasarkan status login
+// Inisialisasi tampilan Navbar dan menu mobile
 export function initNavbarAuth() {
   const adminNavLink = document.getElementById("nav-admin-link");
   const authSlot = document.getElementById("nav-auth-slot");
 
   const loggedIn = isLoggedIn();
 
-  // 1. Tampilkan atau sembunyikan link "Panel Admin"
+  // 1. Tampilkan atau sembunyikan link "Panel Admin" jika elemen ada
   if (adminNavLink) {
     if (loggedIn) {
       adminNavLink.style.display = "";
@@ -59,16 +59,13 @@ export function initNavbarAuth() {
     }
   }
 
-  // 2. Render tombol di sisi kanan navbar
+  // 2. Render tombol di slot navigasi kedua
   if (authSlot) {
     if (loggedIn) {
       authSlot.innerHTML = `
-        <div class="auth-logged-wrapper">
-          <span class="auth-badge-user" title="Masuk sebagai Administrator">
-            <span class="auth-dot"></span>
-            <span class="auth-name">Admin</span>
-          </span>
-          <button type="button" id="btn-navbar-logout" class="btn-nav-logout" title="Keluar dari akun admin">Keluar</button>
+        <div class="auth-logged-group">
+          <a href="admin.html" class="btn-primary btn-nav-login" title="Buka Panel Admin">Panel Admin</a>
+          <button type="button" id="btn-navbar-logout" class="btn-logout-pill" title="Keluar dari sesi admin">Keluar</button>
         </div>
       `;
 
@@ -82,16 +79,29 @@ export function initNavbarAuth() {
       }
     } else {
       authSlot.innerHTML = `
-        <a href="login.html" class="btn-nav-login">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-            <polyline points="10 17 15 12 10 7"></polyline>
-            <line x1="15" y1="12" x2="3" y2="12"></line>
-          </svg>
-          <span>Masuk Admin</span>
+        <a href="login.html" class="btn-primary btn-nav-login" title="Masuk ke Panel Admin">
+          Login Admin
         </a>
       `;
     }
+  }
+
+  // 3. Pasang toggle untuk navigasi mobile (HP)
+  const mobileToggle = document.getElementById("btn-mobile-menu");
+  const mainNav = document.getElementById("main-nav-menu");
+  if (mobileToggle && mainNav && !mobileToggle.dataset.initialized) {
+    mobileToggle.dataset.initialized = "true";
+    mobileToggle.addEventListener("click", () => {
+      const isOpen = mainNav.classList.toggle("open");
+      mobileToggle.setAttribute("aria-expanded", String(isOpen));
+      
+      const iconMenu = mobileToggle.querySelector(".icon-menu");
+      const iconClose = mobileToggle.querySelector(".icon-close");
+      if (iconMenu && iconClose) {
+        iconMenu.style.display = isOpen ? "none" : "block";
+        iconClose.style.display = isOpen ? "block" : "none";
+      }
+    });
   }
 }
 
@@ -102,3 +112,4 @@ export function protectAdminPage() {
     window.location.replace("login.html?redirect=admin.html");
   }
 }
+

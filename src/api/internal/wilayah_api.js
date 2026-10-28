@@ -1,4 +1,4 @@
-import * as db from "../../database/db";
+import * as db from "../../database/db.js";
 /**
 *  @param{Object} page
 *  @param{Number} page.ind

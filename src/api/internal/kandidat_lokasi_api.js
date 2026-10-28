@@ -1,4 +1,4 @@
-import * as db from "../../database/db";
+import * as db from "../../database/db.js";
 
 /**
  * 1. Mengambil data Kandidat Lokasi (Get / Read) dengan Pagination

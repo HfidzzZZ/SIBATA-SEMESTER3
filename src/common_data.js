@@ -12,4 +12,7 @@ export const srcDir = path.dirname(fileURLToPath(import.meta.url));
  * }|null}
  */
 export let dbstatus=null;
+export function setDbStatus(status) {
+  dbstatus = status;
+}
 
