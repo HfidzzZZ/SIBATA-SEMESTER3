@@ -2,7 +2,7 @@
 -- Read-only: tidak membuat, mengubah, atau menghapus database/tabel/data.
 -- Jalankan dari client SQL yang memiliki akses ke INFORMATION_SCHEMA.
 
-SET @target_db := 'sibata_db';
+SET @target_db := 'db_sawah';
 
 -- 1) Database tersedia?
 SELECT
@@ -38,9 +38,22 @@ SELECT expected.table_name AS tabel,
        expected.column_name AS kolom,
        expected.expected_type AS tipe_diharapkan,
        actual.COLUMN_TYPE AS tipe_aktual,
-       CASE
+        CASE
            WHEN actual.COLUMN_NAME IS NULL THEN 'HILANG'
-           WHEN LOWER(actual.COLUMN_TYPE) = LOWER(expected.expected_type) THEN 'SESUAI'
+
+           WHEN LOWER(expected.expected_type) = 'int unsigned'
+                AND LOWER(actual.DATA_TYPE) = 'int'
+                AND LOWER(actual.COLUMN_TYPE) LIKE '%unsigned%'
+               THEN 'SESUAI'
+
+           WHEN LOWER(expected.expected_type) = 'tinyint unsigned'
+                AND LOWER(actual.DATA_TYPE) = 'tinyint'
+                AND LOWER(actual.COLUMN_TYPE) LIKE '%unsigned%'
+               THEN 'SESUAI'
+
+           WHEN LOWER(actual.COLUMN_TYPE) = LOWER(expected.expected_type)
+               THEN 'SESUAI'
+
            ELSE 'PERIKSA TIPE'
        END AS status
 FROM (

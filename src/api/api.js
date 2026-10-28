@@ -9,6 +9,7 @@ import * as commondata from "../common_data.js";
 export async function init(){
   try {
     commondata.setDbStatus(await db.init());
+    console.log(JSON.stringify(commondata.dbstatus));
   } catch (err) {
     console.error("Database init error:", err.message);
   }
