@@ -61,6 +61,7 @@ app.put("/api/test",route.put);
 app.delete("/api/test",route.del);
 // api init
 app.use("/api/data_sawah",route.data_sawah.router);
+app.use("/api/wilayah",route.wilayah.router);
 api.init();
 
 app.get("/api/health", (req, res) => {

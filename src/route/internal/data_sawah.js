@@ -1,6 +1,6 @@
 import * as express from "express";
-import * as api from "../../api/api";
-import * as commondata from "../../common_data";
+import * as api from "../../api/api.js";
+import * as commondata from "../../common_data.js";
 /**
 * @param {express.Request} req 
 * @param {express.Response} res
@@ -133,7 +133,7 @@ async function put(req,res){
       data:[]
     })
   }else{
-   pMissingIDs= api.dataSawah.deleteDataSawah(data);
+   pMissingIDs= await api.dataSawah.deleteDataSawah(data);
   }
   if(pMissingIDs.length==0){
     res.status(200).json({
