@@ -1,6 +1,6 @@
 import express from "express";
-import * as api from "../api/api.js";
-
+import * as api from "../api/api";
+export * as data_sawah from "./internal//data_sawah"
 //import db later
 function isArrayOfObject(data) {
     return Array.isArray(data) &&
