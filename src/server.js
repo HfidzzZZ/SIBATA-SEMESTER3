@@ -60,8 +60,11 @@ app.post("/api/test",route.post);
 app.put("/api/test",route.put);
 app.delete("/api/test",route.del);
 // api init
-app.use("/api/data_sawah",route.data_sawah.router);
-app.use("/api/wilayah",route.wilayah.router);
+app.use("/api/data_sawah", route.data_sawah.router);
+app.use("/api/wilayah", route.wilayah.router);
+app.use("/api/infrastruktur", route.infrastruktur.router);
+app.use("/api/kandidat_lokasi", route.kandidat_lokasi.router);
+app.use("/api/status_lahan", route.status_lahan.router);
 api.init();
 
 app.get("/api/health", (req, res) => {

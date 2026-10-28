@@ -1,9 +1,25 @@
 // Modul Manajemen Otentikasi SIBATA
 
 const AUTH_STORAGE_KEY = "sibata_auth_state";
+const SESSION_ID_KEY = "sibata_session_id";
 
 export function isLoggedIn() {
   return localStorage.getItem(AUTH_STORAGE_KEY) === "true";
+}
+
+export function getSessionId() {
+  return localStorage.getItem(SESSION_ID_KEY) || null;
+}
+
+export function getAuthHeaders() {
+  const headers = {
+    "Content-Type": "application/json"
+  };
+  const sessionId = getSessionId();
+  if (sessionId) {
+    headers["X-Sesion-ID"] = sessionId;
+  }
+  return headers;
 }
 
 export function getAuthUser() {
@@ -11,36 +27,142 @@ export function getAuthUser() {
   return {
     username: localStorage.getItem("sibata_auth_username") || "admin",
     name: localStorage.getItem("sibata_auth_name") || "Administrator SIBATA",
-    role: "Admin Tata Ruang"
+    role: "Admin Tata Ruang",
+    sessionId: getSessionId()
   };
 }
 
-export function login(username, password) {
-  const cleanUsername = username.trim().toLowerCase();
+export async function login(username, password) {
+  const cleanUsername = username.trim();
   const cleanPassword = password.trim();
 
-  // Kredensial default: admin / admin atau admin / admin123
+  // 1. Coba otentikasi ke server melalui fetch HTTP POST /api/login
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: cleanUsername,
+        password: cleanPassword
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const sessionId = data.seesionId || data.sessionId;
+
+      localStorage.setItem(AUTH_STORAGE_KEY, "true");
+      localStorage.setItem("sibata_auth_username", cleanUsername);
+      localStorage.setItem(
+        "sibata_auth_name",
+        cleanUsername === "joko" ? "Joko (Staff Ahli Tata Ruang)" : cleanUsername
+      );
+      if (sessionId) {
+        localStorage.setItem(SESSION_ID_KEY, sessionId);
+      }
+
+      return {
+        success: true,
+        mode: "server",
+        sessionId: sessionId,
+        message: "Login server berhasil."
+      };
+    }
+
+    if (response.status === 401) {
+      // Periksa fallback lokal jika server menolak kredensial
+      if (
+        cleanUsername.toLowerCase() === "admin" &&
+        (cleanPassword === "admin" || cleanPassword === "admin123")
+      ) {
+        localStorage.setItem(AUTH_STORAGE_KEY, "true");
+        localStorage.setItem("sibata_auth_username", "admin");
+        localStorage.setItem("sibata_auth_name", "Administrator SIBATA");
+        localStorage.removeItem(SESSION_ID_KEY);
+        return {
+          success: true,
+          mode: "local",
+          message: "Login offline/lokal berhasil."
+        };
+      }
+
+      return {
+        success: false,
+        message: "Username atau kata sandi tidak cocok di server."
+      };
+    }
+  } catch (err) {
+    console.warn("Gagal terhubung ke endpoint /api/login, beralih ke fallback offline:", err);
+  }
+
+  // 2. Fallback offline: admin / admin atau admin / admin123
   if (
-    cleanUsername === "admin" &&
+    cleanUsername.toLowerCase() === "admin" &&
     (cleanPassword === "admin" || cleanPassword === "admin123")
   ) {
     localStorage.setItem(AUTH_STORAGE_KEY, "true");
-    localStorage.setItem("sibata_auth_username", cleanUsername);
+    localStorage.setItem("sibata_auth_username", "admin");
     localStorage.setItem("sibata_auth_name", "Administrator SIBATA");
-    return { success: true };
+    localStorage.removeItem(SESSION_ID_KEY);
+    return {
+      success: true,
+      mode: "local",
+      message: "Login mode offline berhasil."
+    };
   }
 
   return {
     success: false,
-    message: "Username atau kata sandi tidak valid. Gunakan 'admin' dan 'admin'."
+    message: "Username atau kata sandi tidak valid. Coba akun 'joko' / 'uong' (server) atau 'admin' / 'admin' (lokal)."
   };
 }
 
-export function logout() {
+export async function logout() {
+  const sessionId = getSessionId();
+  if (sessionId) {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          sesionId: sessionId
+        })
+      });
+    } catch (e) {
+      console.warn("Gagal memanggil endpoint logout server:", e);
+    }
+  }
+
   localStorage.removeItem(AUTH_STORAGE_KEY);
+  localStorage.removeItem(SESSION_ID_KEY);
   localStorage.removeItem("sibata_auth_username");
   localStorage.removeItem("sibata_auth_name");
   window.location.href = "index.html";
+}
+
+export async function extendSession() {
+  const sessionId = getSessionId();
+  if (!sessionId) return false;
+
+  try {
+    const res = await fetch("/api/extendSesion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        sesionId: sessionId
+      })
+    });
+    return res.ok;
+  } catch (err) {
+    console.warn("Gagal memperpanjang sesi:", err);
+    return false;
+  }
 }
 
 // Inisialisasi tampilan Navbar dan menu mobile
