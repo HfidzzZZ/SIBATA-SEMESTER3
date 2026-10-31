@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SawahKita - Modernisasi & Keberlanjutan Persawahan</title>
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-green: #1E4D36;
+      --secondary-green: #3B7E58;
+      --accent-gold: #C8A843;
+      --bg-light: #F6F8F5;
+      --text-dark: #1F2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    /* Navbar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 80px;
+      background: #ffffff;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary-green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #4B5563;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-green);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .btn-secondary {
+      background-color: #E5E7EB;
+      color: var(--text-dark);
+      padding: 12px 24px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 80px;
+      min-height: 500px;
+      border-radius: 24px;
+      margin: 20px 80px;
+      background: linear-gradient(90deg, rgba(246,248,245,0.95) 40%, rgba(246,248,245,0.2) 100%), 
+                  url('watermarked_img_4721135407890216739.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--primary-green);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #4B5563;
+      margin-bottom: 30px;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    /* Grid Kartu Fitur */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 0 80px 80px 80px;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      color: var(--primary-green);
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #6B7280;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header & Navigasi -->
+  <header>
+    <div class="logo">🌾 SawahKita</div>
+    <nav>
+      <a href="#">Beranda</a>
+      <a href="#">Tentang Kami</a>
+      <a href="#">Program Tani</a>
+      <a href="#">Pasar Sawah</a>
+      <a href="#">Kontak</a>
+    </nav>
+    <a href="#" class="btn-primary">Gabung Mitra</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Modernisasi & Keberlanjutan Persawahan Indonesia</h1>
+      <p>Menghubungkan Petani, Teknologi, dan Masa Depan Pangan nasional untuk kesejahteraan bersama.</p>
+      <div class="cta-group">
+        <a href="#" class="btn-primary" style="background-color: var(--accent-gold);">Jelajahi Program</a>
+        <a href="#" class="btn-secondary">Pelajari Selengkapnya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fitur Utama -->
+  <section class="features">
+    <div class="card">
+      <img src="watermarked_img_8781185959382633437.jpg" alt="Teknologi Tani">
+      <div>
+        <h3>Teknologi Tani</h3>
+        <p>Pemantauan cuaca dan kondisi lahan real-time berbasis sensor.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="watermarked_img_10862525135528979889.jpg" alt="Pasar Adil">
+      <div>
+        <h3>Pasar Adil</h3>
+        <p>Menghubungkan hasil panen petani langsung ke konsumen.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="watermarked_img_9229929825771747623.jpg" alt="Pendampingan">
+      <div>
+        <h3>Pendampingan</h3>
+        <p>Edukasi metode bertani modern & ramah lingkungan.</p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

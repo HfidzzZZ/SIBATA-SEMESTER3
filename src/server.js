@@ -6,6 +6,7 @@ import path from "node:path";
 import * as data from "./common_data.js";
 import * as midle from "./middleware/middleware.js"
 import * as route from "./route/route.js"
+import * as api from "./api/api.js";
 import cors from "cors";
 import { fileURLToPath } from "node:url";
 
@@ -17,6 +18,7 @@ dotenv.config();
 // Konfigurasi
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = Number(process.env.PORT || 3000);
+
 app.use(cors())
 // Middleware
 app.use(express.json());
@@ -57,6 +59,13 @@ app.get("/api/test",route.get);
 app.post("/api/test",route.post);
 app.put("/api/test",route.put);
 app.delete("/api/test",route.del);
+// api init
+app.use("/api/data_sawah", route.data_sawah.router);
+app.use("/api/wilayah", route.wilayah.router);
+app.use("/api/infrastruktur", route.infrastruktur.router);
+app.use("/api/kandidat_lokasi", route.kandidat_lokasi.router);
+app.use("/api/status_lahan", route.status_lahan.router);
+api.init();
 
 app.get("/api/health", (req, res) => {
     res.json({

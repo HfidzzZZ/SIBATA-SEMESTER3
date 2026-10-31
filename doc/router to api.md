@@ -1,3 +1,21 @@
+# aturan tambahan
+gunakan wraper 
+/**
+ * @typedef {Object} DBValue
+ * @property {string} Status
+ * @property {boolean} is_err
+ * @property {Object[]} data
+ */
+/**
+ * @returns {DBValue}
+ */
+export function createSuccsesReturn(data)
+/**
+ * @returns {DBValue}
+ */
+export function createFailedReturn(status,data=[])
+di common_type.js
+untuk mengembalikan data yang diminta
 # aturan fungsi get${nama data ex:Sawah}()
 ## parameter
 (page:number|undefined|null,size:number|undefined|null,search:string|undefined|null)

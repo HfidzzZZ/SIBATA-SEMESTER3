@@ -25,28 +25,54 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (form) {
-    form.addEventListener("submit", (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const username = usernameInput.value;
       const password = passwordInput.value;
 
-      const result = login(username, password);
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Memverifikasi...";
+      }
 
-      if (result.success) {
-        if (alertBox) {
-          alertBox.className = "login-alert success";
-          alertBox.textContent = "Login berhasil! Mengalihkan ke panel admin...";
-          alertBox.style.display = "block";
+      try {
+        const result = await login(username, password);
+
+        if (result.success) {
+          if (alertBox) {
+            alertBox.className = "login-alert success";
+            const sessionNote = result.sessionId
+              ? ` (Sesi ID: ${result.sessionId.substring(0, 8)}...)`
+              : "";
+            alertBox.textContent = `Login berhasil${sessionNote}! Mengalihkan ke panel admin...`;
+            alertBox.style.display = "block";
+          }
+          setTimeout(() => {
+            window.location.href = redirectTarget;
+          }, 400);
+        } else {
+          if (alertBox) {
+            alertBox.className = "login-alert danger";
+            alertBox.textContent = result.message || "Username atau password salah!";
+            alertBox.style.display = "block";
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Masuk ke Panel";
+          }
         }
-        setTimeout(() => {
-          window.location.href = redirectTarget;
-        }, 500);
-      } else {
+      } catch (err) {
         if (alertBox) {
           alertBox.className = "login-alert danger";
-          alertBox.textContent = result.message || "Username atau password salah!";
+          alertBox.textContent = "Terjadi kesalahan saat memproses login.";
           alertBox.style.display = "block";
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Masuk ke Panel";
         }
       }
     });

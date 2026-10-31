@@ -1,14 +1,21 @@
 import mysql from "mysql2/promise";
-
-const db = mysql.createPool({
-    host: process.env.DB_HOST ?? "localhost",
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10
-});
-
+import * as initial from "./init.js";
+let db = null;
+export async function init(){
+    console.log("DB_HOST:", process.env.DB_HOST);
+    console.log("DB_USER:", process.env.DB_USER);
+    console.log("DB_NAME:", process.env.DB_NAME);
+    console.log("DB_PORT:", process.env.DB_PORT);
+    db=mysql.createPool({
+        host: process.env.DB_HOST ?? "localhost",
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        waitForConnections: true,
+        connectionLimit: 10
+    });
+  return await initial.init(db);
+}
 /* ------------------------------------------------------------------ */
 /* Helper                                                              */
 /* ------------------------------------------------------------------ */

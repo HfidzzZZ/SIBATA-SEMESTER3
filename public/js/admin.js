@@ -7,7 +7,8 @@ import {
   getLocalPemilik,
   saveLocalPemilik,
   getLocalKandidat,
-  saveLocalKandidat
+  saveLocalKandidat,
+  postServerDataSawah
 } from "./store.js";
 import { protectAdminPage, initNavbarAuth } from "./auth.js";
 
@@ -145,6 +146,25 @@ function initSawahForm() {
     };
     localKandidat.push(newKandidat);
     saveLocalKandidat(localKandidat);
+
+    // Kirim sinkronisasi data ke backend server melalui fetch POST /api/data_sawah
+    postServerDataSawah([
+      {
+        id: null,
+        nomor_persil: persil,
+        pemilik_id: pemilikId,
+        wilayah_id: wilayahId,
+        status_lahan_id: statusHukumId,
+        luas_hektar: luas,
+        jenis_sawah: jenisSawah,
+        latitude: lat,
+        longitude: lng
+      }
+    ]).then((serverRes) => {
+      console.log("Status sinkronisasi server data_sawah:", serverRes);
+    }).catch((err) => {
+      console.warn("Gagal sinkronisasi data sawah ke server:", err);
+    });
 
     form.reset();
 

@@ -1,4 +1,10 @@
 import express from "express";
+import * as api from "../api/api.js";
+export * as data_sawah from "./internal/data_sawah.js";
+export * as wilayah from "./internal/wilayah.js";
+export * as infrastruktur from "./internal/infrastruktur.js";
+export * as kandidat_lokasi from "./internal/kandidat_lokasi.js";
+export * as status_lahan from "./internal/status_lahan.js";
 //import db later
 function isArrayOfObject(data) {
     return Array.isArray(data) &&

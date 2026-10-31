@@ -1,7 +1,8 @@
 import {
   kabupatenKota,
   wilayah,
-  getJoinedData
+  getJoinedData,
+  syncDataWithServer
 } from "./store.js";
 import { initNavbarAuth } from "./auth.js";
 
@@ -386,7 +387,7 @@ function initViewToggle() {
 }
 
 // Inisialisasi Halaman Dashboard
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   initNavbarAuth();
 
   const initialJoined = getJoinedData();
@@ -397,6 +398,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initDetailModal();
   initViewToggle();
+
+  // Sinkronisasi data ke server di latar belakang melalui fetch()
+  syncDataWithServer().then((syncResult) => {
+    if (syncResult && syncResult.sawah) {
+      const refreshedJoined = getJoinedData();
+      renderMetrics(refreshedJoined);
+      renderTable(refreshedJoined);
+    }
+  }).catch((err) => {
+    console.info("Info sinkronisasi data server:", err);
+  });
 
   // Filter Dashboard Events
   const searchInput = document.getElementById("search-input");
